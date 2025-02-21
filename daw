@@ -1,0 +1,29 @@
+# Stop all running containers
+docker ps -q | xargs -r docker stop
+
+# Remove any existing files
+cd /home/ubuntu/CAIDA_vinayak
+rm -rf anthropic-quickstarts computer-use-demo
+
+# Clear any leftover processes
+sudo killall -9 Xvfb x11vnc novnc_proxy websockify 2>/dev/null || true
+
+
+# Clone the repository
+git clone https://github.com/anthropics/anthropic-quickstarts.git
+cd anthropic-quickstarts/computer-use-demo
+
+# Setup AWS credentials if not already done
+mkdir -p ~/.aws
+cat > ~/.aws/credentials << EOF
+[default]
+aws_access_key_id=YOUR_ACCESS_KEY
+aws_secret_access_key=YOUR_SECRET_KEY
+EOF
+
+cat > ~/.aws/config << EOF
+[default]
+region=us-west-2
+EOF
+
+
